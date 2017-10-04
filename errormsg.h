@@ -36,7 +36,7 @@
 #define fatal(...) do { \
     fprintf(stderr, "Fatal: " __FILE__ ":" T(__LINE__) ": " __VA_ARGS__); \
     fputc('\n',stderr); \
-    abort(); \
+    exit(EXIT_FAILURE); \
 } while(0)
 
 #endif //ERRORMSG_H
