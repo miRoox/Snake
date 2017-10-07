@@ -16,6 +16,11 @@ enum //map size
     BufferSize = (2*sizeof('|')+MapWidth+sizeof('\n'))*(2*sizeof('-')+MapHeight)+1
 };
 
+inline bool equalPos(Pos one, Pos other)
+{
+    return one.x==other.x && one.y==other.y;
+}
+
 //proposal area doesnot include border
 inline bool proposalPos(Pos pos)
 {
