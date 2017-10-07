@@ -16,6 +16,12 @@ enum //map size
     BufferSize = (2*sizeof('|')+MapWidth+sizeof('\n'))*(2*sizeof('-')+MapHeight)+1
 };
 
+typedef enum
+{
+    Boundless,
+    Limitary
+} MapModel;
+
 inline bool equalPos(Pos one, Pos other)
 {
     return one.x==other.x && one.y==other.y;
@@ -31,5 +37,7 @@ inline bool proposalPos(Pos pos)
 extern void drawMap(char buffer[BufferSize]);
 extern unsigned int mapPosToOffset(Pos pos);
 extern Pos mapOffsetToPos(unsigned int offset);
+extern void setMapModel(MapModel model);
+extern MapModel mapModel(void);
 
 #endif //MAPS_H

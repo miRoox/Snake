@@ -69,3 +69,16 @@ Pos mapOffsetToPos(unsigned int offset)
     assert(validPos(pos));
     return pos;
 }
+
+/* map model */
+static MapModel _model;
+
+void setMapModel(MapModel model)
+{
+    _model = model;
+}
+
+MapModel mapModel(void)
+{
+    return _model;
+}
