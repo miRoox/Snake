@@ -21,29 +21,29 @@ void drawMap(char buffer[BufferSize])
     else //lazy initialize
     {
         size_t offset = 0;
-        _buffer[offset++] = '/';
+        _buffer[offset++] = '#';
         for(size_t i=0;i<MapWidth;++i)
         {
-            _buffer[offset++] = '-';
+            _buffer[offset++] = '#';
         }
-        _buffer[offset++] = '\\';
+        _buffer[offset++] = '#';
         _buffer[offset++] = '\n';
         for(size_t i=0;i<MapHeight;++i)
         {
-            _buffer[offset++] = '|';
+            _buffer[offset++] = '#';
             for(size_t j=0;j<MapWidth;++j)
             {
                 _buffer[offset++] = ' ';
             }
-            _buffer[offset++] = '|';
+            _buffer[offset++] = '#';
             _buffer[offset++] = '\n';
         }
-        _buffer[offset++] = '\\';
+        _buffer[offset++] = '#';
         for(size_t i=0;i<MapWidth;++i)
         {
             _buffer[offset++] = '-';
         }
-        _buffer[offset++] = '/';
+        _buffer[offset++] = '#';
         _buffer[offset++] = '\n';
         _buffer[offset] = '\0';
 
@@ -56,7 +56,7 @@ unsigned int mapPosToOffset(Pos pos)
 {
     assert(pos.x<=MapWidth+1);
     assert(pos.y<=MapHeight+1);
-    return (pos.x)+(2*sizeof('|')+MapWidth+sizeof('\n'))*pos.y;
+    return (pos.x)+(2*sizeof('#')+MapWidth+sizeof('\n'))*pos.y;
 }
 
 //map buffer offset to position
@@ -64,8 +64,8 @@ Pos mapOffsetToPos(unsigned int offset)
 {
     assert(offset<BufferSize);
     Pos pos = {0,0};
-    pos.x = offset%(2*sizeof('|')+MapWidth+sizeof('\n'));
-    pos.y = offset/(2*sizeof('|')+MapWidth+sizeof('\n'));
+    pos.x = offset%(2*sizeof('#')+MapWidth+sizeof('\n'));
+    pos.y = offset/(2*sizeof('#')+MapWidth+sizeof('\n'));
     assert(validPos(pos));
     return pos;
 }
