@@ -100,8 +100,8 @@ Pos snakeHead(void)
     return snake->body[0];
 }
 
-// doesnot check whether 
-void update(void)
+
+void updateSnake(void)
 {
     //update length
     snake->len = *slen;

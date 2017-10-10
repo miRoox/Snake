@@ -24,7 +24,7 @@ extern bool onSnake(Pos pos);
 extern bool onSnakeBody(Pos pos);
 extern Pos snakeHead(void);
 extern bool initSnake(void* data);
-extern void update(void);
+extern void updateSnake(void);
 extern void drawSnake(char buffer[BufferSize]);
 
 
