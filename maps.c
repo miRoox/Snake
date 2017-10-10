@@ -2,9 +2,12 @@
 #include "utils.h"
 #include <string.h>
 
+extern inline bool equalPos(Pos one, Pos other);
+extern inline bool proposalPos(Pos pos);
+
 //internal
 //valid area include border and space
-static bool validPos(Pos pos)
+static inline bool validPos(Pos pos)
 {
     return pos.x<=MapWidth+1 && pos.y<=MapHeight+1;
 }

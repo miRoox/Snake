@@ -4,9 +4,9 @@
 #include "snake.h"
 #include "maps.h"
 
-#incldue <stdlib.h>
+#include <stdlib.h>
 
 extern size_t sizeofSnakeData(void);
-extern void* snakeData(void);
+extern const void* snakeData(void);
 
 #endif //SNAKEDATA_H

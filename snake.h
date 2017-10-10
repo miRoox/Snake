@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct _Snake;
-typedef struct _Snake Snake;
-
 typedef enum
 {
     Invalid = 0,

@@ -1,20 +1,22 @@
 #include "snake.h"
 #include "snakedata.h"
 #include "maps.h"
+#include <string.h>
 
 enum
 {
-    SnakeMaxLength = MapWidth*MapHeight;
-    SnakeMinLength = 2;
+    SnakeMaxLength = MapWidth*MapHeight,
+    SnakeMinLength = 2
 };
 
-#define snakeTag {'S','n','a','k','e','D','a','t','a'}
+#define snakeTag_literal {'S','n','a','k','e','D','a','t','a'}
+static const char snakeTag[] = snakeTag_literal;
 
-struct _Snake
+typedef struct 
 {
     size_t len;
     Pos body[SnakeMaxLength];
-};
+} Snake;
 
 typedef struct 
 {
@@ -25,7 +27,7 @@ typedef struct
 } SnakeData;
 
 static SnakeData _snakeData = {
-    .tag = snakeTag,
+    .tag = snakeTag_literal,
     .snake.len = SnakeMinLength,
     .sdirect = Invalid,
     .slen = SnakeMinLength
@@ -127,6 +129,8 @@ void update(void)
     case Right:
         snake->body[0].x++;
     break;
+    default:
+    break;
     }
     if(mapModel()==Boundless)
     {
@@ -178,7 +182,7 @@ size_t sizeofSnakeData(void)
     return sizeof(_snakeData);
 }
 
-void* snakeData(void)
+const void* snakeData(void)
 {
     return &_snakeData;
 }
