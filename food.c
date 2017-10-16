@@ -11,17 +11,21 @@ Pos foodPos(void)
     return _food;
 }
 
-void initFood(const Pos* food)
+bool initFood(const Pos* food)
 {
+    bool ok = false;
     if(food==NULL)
     {
         randomFood();
+        ok = true;
     }
-    else
+    else if(proposalPos(*food))
     {
         _food.x = food->x;
         _food.y = food->y;
+        ok = true;
     }
+    return ok;
 }
 
 void updateFood(void)

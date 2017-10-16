@@ -2,9 +2,10 @@
 #define FOOD_H
 
 #include "maps.h"
+#include <stdbool.h>
 
 extern Pos foodPos(void);
-extern void initFood(const Pos* food);
+extern bool initFood(const Pos* food);
 extern void updateFood(void);
 extern void drawFood(char buffer[BufferSize]);
 
