@@ -39,7 +39,7 @@ static size_t* slen = &_snakeData.slen;
 //internal forward declaration
 static Direction vecDirect(Pos forward, Pos backward);
 static bool oppositeDirect(Direction one, Direction other);
-static bool validSnakeData(SnakeData* data);
+static bool validSnakeData(const SnakeData* data);
 
 /* snake */
 
@@ -148,7 +148,7 @@ void drawSnake(char buffer[BufferSize])
     }
 }
 
-bool initSnake(void* data)
+bool initSnake(const void* data)
 {
     bool ok = false;
     if(data==&_snakeData)
@@ -235,7 +235,7 @@ bool oppositeDirect(Direction one, Direction other)
     return isOpposite;
 }
 
-bool validSnakeData(SnakeData* data)
+bool validSnakeData(const SnakeData* data)
 {
     bool isValid = false;
     if(memcmp(data->tag,snakeTag,sizeof(snakeTag))

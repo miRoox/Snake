@@ -23,7 +23,7 @@ extern void growUp(void);
 extern bool onSnake(Pos pos);
 extern bool onSnakeBody(Pos pos);
 extern Pos snakeHead(void);
-extern bool initSnake(void* data);
+extern bool initSnake(const void* data);
 extern void updateSnake(void);
 extern void drawSnake(char buffer[BufferSize]);
 
