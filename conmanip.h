@@ -5,6 +5,22 @@
 
 #include <stdbool.h>
 
+enum
+{
+    //ASCII control
+    ASCII_NUL = 0x00,
+    ASCII_BEL = 0x07,
+    ASCII_BS  = 0x08,
+    ASCII_HT  = 0x09,
+    ASCII_LF  = 0x0a,
+    ASCII_VT  = 0x0b,
+    ASCII_FF  = 0x0c,
+    ASCII_CR  = 0x0d,
+    ASCII_CAN = 0x18,
+    ASCII_ESC = 0x1b,
+    ASCII_DEL = 0x7f
+};
+
 typedef enum  
 {
     Black = 0x0,
