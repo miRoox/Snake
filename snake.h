@@ -19,6 +19,7 @@ extern Direction currentDirection(void);
 extern bool turnTo(Direction direct);
 extern size_t currentLength(void);
 extern bool isVictorious(void);
+extern bool isFailed(void);
 extern void growUp(void);
 extern bool onSnake(Pos pos);
 extern bool onSnakeBody(Pos pos);

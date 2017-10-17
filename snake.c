@@ -69,6 +69,11 @@ bool isVictorious(void)
     return snake->len == SnakeMaxLength;
 }
 
+bool isFailed(void)
+{
+    return !proposalPos(snakeHead()) || onSnakeBody(snakeHead());
+}
+
 void growUp(void)
 {
     *slen = snake->len +1;
