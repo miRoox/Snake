@@ -17,11 +17,7 @@ void drawMap(char buffer[BufferSize])
 {
     static bool inited = false;
     static char _buffer[BufferSize];
-    if(inited)
-    {
-        strncpy(buffer,_buffer,BufferSize);
-    }
-    else //lazy initialize
+    if(!inited) //lazy initialize
     {
         size_t offset = 0;
         _buffer[offset++] = '#';
@@ -44,7 +40,7 @@ void drawMap(char buffer[BufferSize])
         _buffer[offset++] = '#';
         for(size_t i=0;i<MapWidth;++i)
         {
-            _buffer[offset++] = '-';
+            _buffer[offset++] = '#';
         }
         _buffer[offset++] = '#';
         _buffer[offset++] = '\n';
@@ -52,14 +48,15 @@ void drawMap(char buffer[BufferSize])
 
         inited = true;
     }
+
+    strncpy(buffer,_buffer,BufferSize);
 }
 
 //map position to buffer offset
 unsigned int mapPosToOffset(Pos pos)
 {
-    assert(pos.x<=MapWidth+1);
-    assert(pos.y<=MapHeight+1);
-    return (pos.x)+(2*sizeof('#')+MapWidth+sizeof('\n'))*pos.y;
+    assert(validPos(pos));
+    return (pos.x)+(2*sizeof(char)+MapWidth+sizeof(char))*pos.y;
 }
 
 //map buffer offset to position
@@ -67,8 +64,8 @@ Pos mapOffsetToPos(unsigned int offset)
 {
     assert(offset<BufferSize);
     Pos pos = {0,0};
-    pos.x = offset%(2*sizeof('#')+MapWidth+sizeof('\n'));
-    pos.y = offset/(2*sizeof('#')+MapWidth+sizeof('\n'));
+    pos.x = offset%(2*sizeof(char)+MapWidth+sizeof(char));
+    pos.y = offset/(2*sizeof(char)+MapWidth+sizeof(char));
     assert(validPos(pos));
     return pos;
 }

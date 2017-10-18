@@ -13,7 +13,7 @@ enum //map size
 {
     MapWidth = 16,
     MapHeight = 16,
-    BufferSize = (2*sizeof('#')+MapWidth+sizeof('\n'))*(2*sizeof('#')+MapHeight)+1
+    BufferSize = (2*sizeof(char)+MapWidth+sizeof(char))*(2*sizeof(char)+MapHeight)+1
 };
 
 typedef enum
