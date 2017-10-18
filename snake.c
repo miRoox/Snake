@@ -1,6 +1,7 @@
 #include "snake.h"
 #include "snakedata.h"
 #include "maps.h"
+#include "food.h"
 #include <string.h>
 
 enum
@@ -39,6 +40,7 @@ static size_t* slen = &_snakeData.slen;
 //internal forward declaration
 static Direction vecDirect(Pos forward, Pos backward);
 static bool oppositeDirect(Direction one, Direction other);
+static inline void growUp(void);
 static bool validSnakeData(const SnakeData* data);
 
 /* snake */
@@ -72,11 +74,6 @@ bool isVictorious(void)
 bool isFailed(void)
 {
     return !proposalPos(snakeHead()) || onSnakeBody(snakeHead());
-}
-
-void growUp(void)
-{
-    *slen = snake->len +1;
 }
 
 // include head
@@ -139,8 +136,27 @@ void updateSnake(void)
     }
     if(mapModel()==Boundless)
     {
-        snake->body[0].x = (snake->body[0].x - 1)%MapWidth + 1;
-        snake->body[0].y = (snake->body[0].y - 1)%MapHeight + 1;
+        if(snake->body[0].x==0)
+        {
+            snake->body[0].x = MapWidth;
+        }
+        else if(snake->body[0].x==MapWidth+1)
+        {
+            snake->body[0].x = 1;
+        }
+        if(snake->body[0].y==0)
+        {
+            snake->body[0].y = MapHeight;
+        }
+        else if(snake->body[0].y==MapHeight+1)
+        {
+            snake->body[0].y = 1;
+        }
+    }
+    // food
+    if(equalPos(foodPos(),snakeHead()))
+    {
+        growUp();
     }
 }
 
@@ -205,11 +221,11 @@ Direction vecDirect(Pos forward, Pos backward)
     {
         direct = Left;
     }
-    else if(forward.y > backward.y && forward.x == backward.x)
+    else if(forward.y < backward.y && forward.x == backward.x)
     {
         direct = Up;
     }
-    else if(forward.y < backward.y && forward.x == backward.x)
+    else if(forward.y > backward.y && forward.x == backward.x)
     {
         direct = Down;
     }
@@ -238,6 +254,11 @@ bool oppositeDirect(Direction one, Direction other)
     break;
     }
     return isOpposite;
+}
+
+void growUp(void)
+{
+    *slen = snake->len +1;
 }
 
 bool validSnakeData(const SnakeData* data)
