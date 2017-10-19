@@ -24,13 +24,15 @@ void maybeQuit(void);
 bool leaveGame(void);
 bool replayGame(void);
 GameOption showOptions(void);
-Speed getSpeed(void);
+void gameControl(void);
+Speed playerSpeed(void);
 
 bool playing(MapModel mapModel,
              Speed speed,
              const void* snakeData,
              const Pos* food);
 void repaint(void);
+Timer* setSpeed(Speed speed);
 
 int main(int argc, char *argv[])
 {
@@ -102,7 +104,7 @@ void newGame(void)
             {
                 mapModel = Limitary;
             }
-            Speed speed = getSpeed();
+            Speed speed = playerSpeed();
             while(playing(mapModel,speed,NULL,NULL));
             reselect = false;
         break;
@@ -168,20 +170,25 @@ GameOption showOptions(void)
         reselect = false;
         repaint();
         printf("Options:\n"
-               "1=Save game\n"
-               "2=Leave game\n"
-               "3=Replay game\n"
-               "4=Quit\n"
+               "1=Game control\n"
+               "2=Save game\n"
+               "3=Leave game\n"
+               "4=Replay game\n"
+               "5=Quit\n"
                "0=Back to the game\n"
-               "Please input(1, 2, 3, 4 or 0):");
+               "Please input(1, 2, 3, 4, 5 or 0):");
         scanf("%d",&choice);
         switch(choice)
         {
-        case 1://TODO: save game
+        case 1:
+            gameControl();
+            reselect = true;
+        break;
+        case 2://TODO: save game
             pause("TODO...");
             reselect = true;
         break;
-        case 2:
+        case 3:
             if(leaveGame())
             {
                 option = LeaveGame;
@@ -192,7 +199,7 @@ GameOption showOptions(void)
                 reselect = true;
             }
         break;
-        case 3:
+        case 4:
             if(replayGame())
             {
                 option = ReplayGame;
@@ -203,7 +210,7 @@ GameOption showOptions(void)
                 reselect = true;
             }
         break;
-        case 4:
+        case 5:
             maybeQuit();
             reselect = true;
         break;
@@ -220,7 +227,42 @@ GameOption showOptions(void)
     return option;
 }
 
-unsigned int getSpeed(void)
+void gameControl(void)
+{
+    bool reselect = true;
+    while(reselect)
+    {
+        int choice = 0;
+        reselect = false;
+        repaint();
+        printf("Choose:\n"
+               "1=Speed control\n"
+               "2=Color control\n"
+               "0=Back to previous\n"
+               "Please input(1, 2 or 0):");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+            setSpeed(playerSpeed());
+            reselect = true;
+        break;
+        case 2:
+            reselect = false;
+        break;
+        case 0:
+            reselect = false;
+        break;
+        default:
+            reselect = true;
+            warning("Wrong Input!");
+            pause("Press any key to continue.");
+        break;
+        }
+    }
+}
+
+Speed playerSpeed(void)
 {
     Speed maxSpeed = 5;//TODO: load from config
     Speed speed = maxSpeed;
@@ -257,10 +299,7 @@ bool playing(MapModel mapModel,
     //map model
     setMapModel(mapModel);
     //speed
-    clock_t rate = CLOCKS_PER_SEC*1/5;
-    Speed maxSpeed = 5;
-    clock_t timerInterval = rate*(maxSpeed + 1 - speed);
-    timer = installTimer(timerInterval);
+    timer = setSpeed(speed);
     //snake
     if(!initSnake(snakeData))
     {
@@ -380,6 +419,23 @@ void repaint(void)
     drawSnake(buffer);
     drawFood(buffer);
     puts(buffer);
+}
+
+Timer* setSpeed(Speed speed)
+{
+    static Timer* timer = NULL;
+    clock_t rate = CLOCKS_PER_SEC*1/5;
+    Speed maxSpeed = 5;//TODO: load from config
+    clock_t timerInterval = rate*(maxSpeed + 1 - speed);
+    if(enabledTimer(timer))
+    {
+        setInterval(timer,timerInterval);
+    }
+    else
+    {
+        timer = installTimer(timerInterval);
+    }
+    return timer;
 }
 
 void startup(void)
