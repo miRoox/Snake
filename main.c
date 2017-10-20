@@ -25,7 +25,9 @@ bool leaveGame(void);
 bool replayGame(void);
 GameOption showOptions(void);
 void gameControl(void);
+void playingColor(void);
 Speed playerSpeed(void);
+ConColor selectColor(ConColor except);
 
 bool playing(MapModel mapModel,
              Speed speed,
@@ -248,7 +250,43 @@ void gameControl(void)
             reselect = true;
         break;
         case 2:
+            playingColor();
+            reselect = true;
+        break;
+        case 0:
             reselect = false;
+        break;
+        default:
+            reselect = true;
+            warning("Wrong Input!");
+            pause("Press any key to continue.");
+        break;
+        }
+    }
+}
+
+void playingColor(void)
+{
+    bool reselect = true;
+    while(reselect)
+    {
+        int choice = 0;
+        clearScreen();
+        printf("Menu:\n"
+               "1=Change foreground color\n"
+               "2=Change background color\n"
+               "0=Back to previous\n"
+               "Please input(1, 2 or 0):");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+            setForeground(selectColor(background()));
+            reselect = true;
+        break;
+        case 2:
+            setBackground(selectColor(foreground()));
+            reselect = true;
         break;
         case 0:
             reselect = false;
@@ -284,6 +322,58 @@ Speed playerSpeed(void)
     }
     while(re);
     return speed;
+}
+
+ConColor selectColor(ConColor except)
+{
+    bool reselect = true;
+    ConColor color;
+    while(reselect)
+    {
+        int choice = 0;
+        clearScreen();
+        printf("Color index:\n");
+        printf("%u=%s\n",Black,T(Black));
+        printf("%u=%s\n",Blue,T(Blue));
+        printf("%u=%s\n",Green,T(Green));
+        printf("%u=%s\n",Aqua,T(Aqua));
+        printf("%u=%s\n",Red,T(Red));
+        printf("%u=%s\n",Purple,T(Purple));
+        printf("%u=%s\n",Yellow,T(Yellow));
+        printf("%u=%s\n",White,T(White));
+        printf("%u=%s\n",Gray,T(Gray));
+        printf("%u=%s\n",LightBlue,T(LightBlue));
+        printf("%u=%s\n",LightGreen,T(LightGreen));
+        printf("%u=%s\n",LightAqua,T(LightAqua));
+        printf("%u=%s\n",LightRed,T(LightRed));
+        printf("%u=%s\n",LightPurple,T(LightPurple));
+        printf("%u=%s\n",LightYellow,T(LightYellow));
+        printf("%u=%s\n",BrightWhite,T(BrightWhite));
+        printf("Enter a color index:");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case Black:     case Blue:       case Green:      case Aqua:
+        case Red:       case Purple:     case Yellow:     case White:
+        case Gray:      case LightBlue:  case LightGreen: case LightAqua:
+        case LightRed:  case LightPurple:case LightYellow:case BrightWhite:
+            color = choice;
+            reselect = false;
+        break;
+        default:
+            reselect = true;
+        break;
+        }
+        if(color==except)
+        {
+            reselect = true;
+        }
+        if(reselect)
+        {
+            pause("Invalid or conflict color. Press any key to reselect.");
+        }
+    }
+    return color;
 }
 
 //return replay
