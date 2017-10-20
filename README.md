@@ -12,6 +12,6 @@
 
 - [ ] Save & load game
 - [ ] Configuration
-- [ ] Game control option
+- [X] Game control option
 - [ ] Instructions
 - [ ] etc.
