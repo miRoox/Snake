@@ -1,0 +1,3 @@
+[submodule "WolframLanguage"]
+	path = wl-mathematica
+	url = git@github.com:miRoox/SnakeGame-wl.git
